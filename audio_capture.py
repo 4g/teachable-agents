@@ -28,7 +28,7 @@ class LiveTranscriber:
         for item in self.transcriber(mic, generate_kwargs={"max_new_tokens": 128}):
             if not item["partial"][0]:
                 if self.bus:
-                    event = Event(type='user_speech', data={'text': item['text']})
+                    event = Event(type='user_speech', text=item['text'])
                     self.bus.push_event(event)
                 else:
                     print(item["text"])

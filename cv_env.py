@@ -30,7 +30,7 @@ class GameEnvironment:
         }
 
     def step(self, action):
-        action_event = Event(type='action', data={'text':action})
+        action_event = Event(type='action', text=action)
         self.bus.push_event(action_event)
 
         """Updates the game state based on the action."""
@@ -46,16 +46,15 @@ class GameEnvironment:
         if self.box_position == self.cookies[self.current_cookie]:
             del self.cookies[self.current_cookie]
             self.score += 1
+            state = Event(type='state', image=self.render(), text=self.get_state())
+            self.bus.push_event(state)
             if self.score < len(self.cookie_names):
                 self.current_cookie = self.cookie_names[self.score]
 
         if not self.cookies:
             self.game_over = True
 
-        state = Event(type='state', data={'image': self.render(),
-                                           'text': self.get_state()})
-        self.bus.push_event(state)
-
+        
         return self.get_state()
 
     def render(env):
