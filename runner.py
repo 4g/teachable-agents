@@ -5,7 +5,7 @@ from threading import Thread
 from time import sleep
 
 def start():
-    bus = EventBus()
+    bus = EventBus(log_dir='events_01')
     user_listener = LiveTranscriber(bus=bus)
     listener = Thread(target=user_listener.transcribe)
     
@@ -20,7 +20,5 @@ def start():
     sleep(2)
     user_listener.stop()
     listener.join()
-
-    bus.serialize('events_dir')
 
 start()
